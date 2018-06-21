@@ -7,8 +7,8 @@ http.createServer(function (request, response) {
    // Set the response HTTP header with HTTP status and Content type
    response.writeHead(200, {'Content-Type': 'text/plain'});
 
-   // sending the empty response back and ending the connection
-   response.end();
+   // Send the response body "Hello World"
+    response.end('Hello World');
 
 }).listen(9000);
 
