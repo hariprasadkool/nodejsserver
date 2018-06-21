@@ -1,5 +1,9 @@
+// Node’s inbuilt  module
 const http = require("http");
 const url = require('url');
+const { parse } = require('querystring');
+
+// Pages
 const welcomepage = require('./welcomepage.js');
 
 // Create HTTP server and listen on port 8000 for requests
@@ -10,7 +14,7 @@ http.createServer(function (request, response) {
             body += chunk.toString(); // convert Buffer to string
         });
         request.on('end', () => {
-            console.log(body);
+            console.log( parse(body));
             // Set the response HTTP header with HTTP status and Content type
             response.writeHead(200, {
                 'Content-Type': 'text/plain'
