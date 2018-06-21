@@ -4,12 +4,22 @@ const welcomepage = require('./welcomepage.js');
 
 // Create HTTP server and listen on port 8000 for requests
 http.createServer(function (request, response) {
-
-   // Set the response HTTP header with HTTP status and Content type
-   response.writeHead(200, {'Content-Type': 'text/plain'});
-   response.write(request.url);
-   response.write(welcomepage.greeting());
-   response.end();
+    if (request.method === 'POST') {
+        let body = '';
+        request.on('data', chunk => {
+            body += chunk.toString(); // convert Buffer to string
+        });
+        request.on('end', () => {
+            console.log(body);
+        });
+    }
+    // Set the response HTTP header with HTTP status and Content type
+    response.writeHead(200, {
+        'Content-Type': 'text/plain'
+    });
+    response.write(request.url);
+    response.write(welcomepage.greeting());
+    response.end();
 
 }).listen(9000);
 
