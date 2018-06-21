@@ -14,11 +14,14 @@ http.createServer(function (request, response) {
             body += chunk.toString(); // convert Buffer to string
         });
         request.on('end', () => {
-            console.log( parse(body));
+            const parsedBody = parse(body);
+            console.log(parsedBody);
+            
             // Set the response HTTP header with HTTP status and Content type
             response.writeHead(200, {
                 'Content-Type': 'text/plain'
             });
+            response.write(JSON.stringify(parsedBody));
             response.write(request.url);
             response.write(welcomepage.greeting());
             response.end();
