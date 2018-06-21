@@ -11,15 +11,15 @@ http.createServer(function (request, response) {
         });
         request.on('end', () => {
             console.log(body);
+            // Set the response HTTP header with HTTP status and Content type
+            response.writeHead(200, {
+                'Content-Type': 'text/plain'
+            });
+            response.write(request.url);
+            response.write(welcomepage.greeting());
+            response.end();
         });
     }
-    // Set the response HTTP header with HTTP status and Content type
-    response.writeHead(200, {
-        'Content-Type': 'text/plain'
-    });
-    response.write(request.url);
-    response.write(welcomepage.greeting());
-    response.end();
 
 }).listen(9000);
 
