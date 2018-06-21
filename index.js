@@ -2,6 +2,10 @@
 const http = require("http");
 const url = require('url');
 const { parse } = require('querystring');
+const fs = require('fs');
+
+// Third Party Node module
+const formidable = require('formidable');
 
 // Pages
 const welcomepage = require('./welcomepage.js');
@@ -21,24 +25,43 @@ http.createServer(function (request, response) {
         response.writeHead(200, headers);
         response.end();
     }
+
     if (request.method === 'POST') {
-        let body = '';
-        request.on('data', chunk => {
-            body += chunk.toString(); // convert Buffer to string
-        });
-        request.on('end', () => {
-            const parsedBody = parse(body);
-            console.log(parsedBody);
-            
-            // Set the response HTTP header with HTTP status and Content type
-            response.writeHead(200, {
-                'Content-Type': 'text/plain'
+
+        var form = new formidable.IncomingForm();
+        form.parse(request, function (err, fields, files) {
+        console.log(fields);
+        fs.readFile(files.file.path, function(err, data) {
+            if(err){
+                console.log(err);
+            }
+            var path = __dirname + '/assets/' + new Date() + files.file.name;
+            fs.writeFile(path, data, function(err) {
+                if(err){
+                    console.log(err);
+                }
             });
-            response.write(JSON.stringify(parsedBody));
-            response.write(request.url);
-            response.write(welcomepage.greeting());
-            response.end();
+          });
         });
+
+        // let body = '';
+        // request.on('data', chunk => {
+        //     body += chunk.toString(); // convert Buffer to string
+        // });
+        // request.on('end', () => {
+        //     const parsedBody = parse(body);
+        //     console.log(parsedBody);
+            
+        //     // Set the response HTTP header with HTTP status and Content type
+        //     response.writeHead(200, {
+        //         'Content-Type': 'text/plain'
+        //     });
+        //     response.write(JSON.stringify(parsedBody));
+        //     response.write(request.url);
+        //     response.write(welcomepage.greeting());
+        //     response.end();
+        // });
+
     }
 
 }).listen(9000);
