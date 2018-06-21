@@ -30,3 +30,14 @@ http.createServer(function (request, response) {
 
 // Print URL for accessing server
 console.log('Server running at http://127.0.0.1:9000/')
+
+
+/*
+
+    To run server in command line (provide the file name to run with node)
+    node index.js
+
+    To run server in vs code (provide the file name to run in launch.json)
+    CLICK DEBUG BUTTON
+
+*/
