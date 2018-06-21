@@ -1,14 +1,13 @@
 const http = require("http");
+const welcomepage = require('./welcomepage.js');
 
-
-//Create HTTP server and listen on port 8000 for requests
+// Create HTTP server and listen on port 8000 for requests
 http.createServer(function (request, response) {
 
    // Set the response HTTP header with HTTP status and Content type
    response.writeHead(200, {'Content-Type': 'text/plain'});
-
-   // Send the response body "Hello World"
-    response.end('Hello World');
+   response.write(welcomepage.greeting());
+   response.end();
 
 }).listen(9000);
 
